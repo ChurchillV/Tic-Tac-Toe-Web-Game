@@ -1,0 +1,15 @@
+.square {
+    height: 0px;
+    width: 100%;
+    padding-bottom: 40%;
+    border: 1px solid black;
+    text-align: center;
+    font-size: 5em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.square:hover {
+    background-color: black;
+    color: aliceblue;
+}
