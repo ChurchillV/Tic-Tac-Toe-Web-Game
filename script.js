@@ -1,10 +1,11 @@
 const boxes = document.querySelectorAll('.box');
-const x_o = document.querySelectorAll('.char');
 let alert = document.querySelector('#player-turn');
 let currentPlayer = 'X';
 let free_spaces = 9;
 const pop_up = document.getElementById('winner-modal');
+const blur = document.getElementsByClassName('modal')[0];
 let pop_upmsg = document.getElementById('winner-message');
+const body = document.querySelector('body');
 
 //This is executed every time a box is clicked
 boxes.forEach(function(box){
@@ -29,9 +30,27 @@ boxes.forEach(function(box){
                     let winner_msg = "Player " + boxes[a].textContent + " wins!!";
                     alert.textContent = winner_msg;
                     pop_upmsg.textContent = winner_msg;
-                    $(pop_up).modal('show')
+                    $('#winner-modal').modal('show');
+                    body.classList.add('.modal-open');
                 }
             }
         }
     });
 });
+
+//Clear the Game board once the "Play Again" button is clicked
+function clearBoard() {
+    boxes.forEach(function(box){
+        if (box.textContent !== ""){
+            box.textContent = "";
+            pop_up.style.display = "none";
+            $('.modal-backdrop').remove();
+            return
+        }
+    })
+}         
+
+function closeModal() {
+    $('.modal-backdrop').remove();
+    pop_up.style.display = 'none';
+}

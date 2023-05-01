@@ -50,13 +50,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="winner-modal-label">Congratulations!!</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="close">
+                    <button class="close" type="button" data-dismiss="modal" aria-label="close" onclick="closeModal()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <p id="winner-message"></p>
-                    <button class="btn btn-primary" data-dismiss="modal" type="button">Play Again</button>
+                    <button class="btn btn-primary" data-dismiss="modal" type="button" onclick="clearBoard()">Play Again</button>
                 </div>
             </div>
         </div>

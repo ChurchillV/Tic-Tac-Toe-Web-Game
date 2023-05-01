@@ -13,7 +13,3 @@
     background-color: black;
     color: aliceblue;
 }
-
-.modal-backdrop {
-    filter: blur(5px);
-}
