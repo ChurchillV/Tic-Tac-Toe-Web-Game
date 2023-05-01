@@ -3,6 +3,8 @@ const x_o = document.querySelectorAll('.char');
 let alert = document.querySelector('#player-turn');
 let currentPlayer = 'X';
 let free_spaces = 9;
+const pop_up = document.getElementById('winner-modal');
+let pop_upmsg = document.getElementById('winner-message');
 
 //This is executed every time a box is clicked
 boxes.forEach(function(box){
@@ -24,7 +26,10 @@ boxes.forEach(function(box){
             for (let i = 0; i < winning_combinations.length; i++) {
                 const [a, b, c] = winning_combinations[i];
                 if(boxes[a].textContent && boxes[a].textContent === boxes[b].textContent && boxes[b].textContent === boxes[c].textContent) {
-                    alert.textContent = "Player " + boxes[a].textContent + " wins!!";
+                    let winner_msg = "Player " + boxes[a].textContent + " wins!!";
+                    alert.textContent = winner_msg;
+                    pop_upmsg.textContent = winner_msg;
+                    $(pop_up).modal('show')
                 }
             }
         }
