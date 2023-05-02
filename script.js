@@ -34,10 +34,14 @@ boxes.forEach(function(box){
                 if(boxes[a].textContent && boxes[a].textContent === boxes[b].textContent && boxes[b].textContent === boxes[c].textContent) {
                     winner_msg.textContent = "Player " + boxes[a].textContent + " wins!!";
                     info_box.textContent = winner_msg.textContent;
+                    
+                    //Make the pop-up appear
                     pop_up.style.visibility = "visible";
                     pop_up.style.top = "50%";
                     pop_up.style.transform = "translate(-50%, -50%) scale(1)";
                     container.style.filter = "blur(5px)";
+
+                    //Update score
                     if(boxes[a].textContent == 'X'){
                         scoreX.textContent = x_score + 1;
                     }
