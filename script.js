@@ -55,7 +55,7 @@ boxes.forEach(function(box){
                 }
             }
             if (isDraw && free_spaces === 0) {
-                //document.getElementById('winners-trophy').src = "./handshake.png"
+                document.getElementById('winners-trophy').src = "./images/handshake.png"
                 winner_msg.textContent = "Draw!!";
                 info_box.textContent = winner_msg.textContent;
                 pop_up.style.visibility = "visible";
