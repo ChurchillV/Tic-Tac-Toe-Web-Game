@@ -34,9 +34,10 @@ boxes.forEach(function(box){
                 const [a, b, c] = winning_combinations[i];
                 if(boxes[a].textContent && boxes[a].textContent === boxes[b].textContent && boxes[b].textContent === boxes[c].textContent) {
                     isDraw = false;
+                    document.getElementById('winners-trophy').src = "./images/cup.png"
                     winner_msg.textContent = "Player " + boxes[a].textContent + " wins!!";
                     info_box.textContent = winner_msg.textContent;
-                    
+                    free_spaces = 9;
                     //Make the pop-up appear
                     pop_up.style.visibility = "visible";
                     pop_up.style.top = "50%";
