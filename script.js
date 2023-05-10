@@ -5,16 +5,20 @@ let free_spaces = 9;
 let taps = 0;
 let pop_up = document.getElementById('popup');
 let winner_msg = document.getElementById('winnermessage');
-let container = document.getElementById('container-fluid');
+const container = document.querySelectorAll('.container-fluid');
 let scoreX = document.getElementById('x-score');
 let scoreO = document.getElementById('o-score');
 let x_score = 0;
 let o_score = 0;
+const menu = document.querySelector('.menu');
 scoreX.textContent = x_score;
 scoreO.textContent = o_score;
+let showMenu = false;
 
 //This is executed every time a box is clicked
-boxes.forEach(function(box){
+function multiplayer() {
+    displayMenu();
+    boxes.forEach(function(box){
     box.addEventListener('click',function(){
         if (box.textContent !== ""){  // If the box already has a value, nothing is done
             return;
@@ -42,7 +46,9 @@ boxes.forEach(function(box){
                     pop_up.style.visibility = "visible";
                     pop_up.style.top = "50%";
                     pop_up.style.transform = "translate(-50%, -50%) scale(1)";
-                    container.style.filter = "blur(5px)";
+                    container.forEach(function(element) {
+                        element.style.filter = "blur(5px)";
+                    })
 
                     //Update score
                     if(boxes[a].textContent == 'X'){
@@ -62,12 +68,19 @@ boxes.forEach(function(box){
                 pop_up.style.visibility = "visible";
                 pop_up.style.top = "50%";
                 pop_up.style.transform = "translate(-50%, -50%) scale(1)";
-                container.style.filter = "blur(5px)";
+                container.forEach(function(element) {
+                    element.style.filter = "blur(5px)";
+                })
                 free_spaces = 9;
             }
         }
     });
-});
+});}
+
+function singleplayer() {
+    
+}
+
 
 //Clear the Game board and Popup once the "Play Again" button is clicked
 function clearBoard() {
@@ -77,7 +90,30 @@ function clearBoard() {
     pop_up.style.visibility = "hidden";
     pop_up.style.top = "0";
     pop_up.style.transform = "translate(-50%, -50%) scale(0.1)";
-    container.style.filter = "none";
     info_box.textContent = "Player X's turn";
     currentPlayer = 'X';
-}         
+    container.forEach(function(element) {
+        element.style.filter = "none";
+    })
+}
+
+function displayMenu() {
+    if(showMenu) {
+        menu.style.visibility = "visible";
+        menu.style.top = "50%";
+        menu.style.transform = "translate(-50%, -50%) scale(1)";
+        container.forEach(function(element) {
+            element.style.filter = "blur(5px)";
+        })
+        showMenu = false;
+    }
+    else {
+        menu.style.visibility = "hidden";
+        menu.style.top = "0";
+        menu.style.transform = "translate(-50%, -50%) scale(0.1)";
+        container.forEach(function(element) {
+            element.style.filter = "none";
+        })
+        showMenu = true;
+    }
+}
