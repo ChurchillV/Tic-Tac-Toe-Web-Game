@@ -78,9 +78,8 @@ function multiplayer() {
 });}
 
 function singleplayer() {
-    
-}
 
+}
 
 //Clear the Game board and Popup once the "Play Again" button is clicked
 function clearBoard() {
