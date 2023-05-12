@@ -15,7 +15,13 @@ scoreX.textContent = x_score;
 scoreO.textContent = o_score;
 let showMenu = false;
 
-//This is executed every time a box is clicked
+//Array of all possible winning combinations
+const winning_combinations = [
+    [0,1,2], [3,4,5], [6,7,8],  //rows
+    [0,3,6], [1,4,7], [2,5,8],  //columns
+    [0,4,8], [2,4,6] ];         //diagonals
+
+//Multiplayer option
 function multiplayer() {
     displayMenu();
     boxes.forEach(function(box){
@@ -27,11 +33,6 @@ function multiplayer() {
         currentPlayer = currentPlayer === "X" ? "O" : "X";      //Tenary operator to change the current player (If X, change to O, else make it X)
         info_box.textContent = "Player " + currentPlayer + "'s turn";
         free_spaces -= 1;
-        const winning_combinations = [
-            [0,1,2], [3,4,5], [6,7,8],  //rows
-            [0,3,6], [1,4,7], [2,5,8],  //columns
-            [0,4,8], [2,4,6] ];         //diagonals
-
         if (free_spaces <= 6) {
             let isDraw = true;
             for (let i = 0; i < winning_combinations.length; i++) {
@@ -77,6 +78,7 @@ function multiplayer() {
     });
 });}
 
+//Single Player Option, AI
 function singleplayer() {
 
 }
