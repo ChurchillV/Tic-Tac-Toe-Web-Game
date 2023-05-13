@@ -98,6 +98,7 @@ function clearBoard() {
     })
 }
 
+//Startup menu
 function displayMenu() {
     if(showMenu) {
         menu.style.visibility = "visible";
