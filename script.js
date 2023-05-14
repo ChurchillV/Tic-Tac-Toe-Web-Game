@@ -47,9 +47,7 @@ function multiplayer() {
                     pop_up.style.visibility = "visible";
                     pop_up.style.top = "50%";
                     pop_up.style.transform = "translate(-50%, -50%) scale(1)";
-                    container.forEach(function(element) {
-                        element.style.filter = "blur(5px)";
-                    })
+                    unblur();
 
                     //Update score
                     if(boxes[a].textContent == 'X'){
@@ -69,9 +67,7 @@ function multiplayer() {
                 pop_up.style.visibility = "visible";
                 pop_up.style.top = "50%";
                 pop_up.style.transform = "translate(-50%, -50%) scale(1)";
-                container.forEach(function(element) {
-                    element.style.filter = "blur(5px)";
-                })
+                unblur();
                 free_spaces = 9;
             }
         }
@@ -93,9 +89,7 @@ function clearBoard() {
     pop_up.style.transform = "translate(-50%, -50%) scale(0.1)";
     info_box.textContent = "Player X's turn";
     currentPlayer = 'X';
-    container.forEach(function(element) {
-        element.style.filter = "none";
-    })
+    unblur();
 }
 
 //Startup menu
@@ -104,18 +98,21 @@ function displayMenu() {
         menu.style.visibility = "visible";
         menu.style.top = "50%";
         menu.style.transform = "translate(-50%, -50%) scale(1)";
-        container.forEach(function(element) {
-            element.style.filter = "blur(5px)";
-        })
+        unblur();
         showMenu = false;
     }
     else {
         menu.style.visibility = "hidden";
         menu.style.top = "0";
         menu.style.transform = "translate(-50%, -50%) scale(0.1)";
-        container.forEach(function(element) {
-            element.style.filter = "none";
-        })
+        unblur();
         showMenu = true;
     }
+}
+
+//Unblur the container
+function unblur() {
+    container.forEach(function(element) {
+        element.style.filter = "none";
+    })
 }
