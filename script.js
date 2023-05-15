@@ -14,6 +14,8 @@ const menu = document.querySelector('.menu');
 scoreX.textContent = x_score;
 scoreO.textContent = o_score;
 let showMenu = false;
+let isDraw = true;
+let blur = false;
 
 //Array of all possible winning combinations
 const winning_combinations = [
@@ -34,21 +36,11 @@ function multiplayer() {
         info_box.textContent = "Player " + currentPlayer + "'s turn";
         free_spaces -= 1;
         if (free_spaces <= 6) {
-            let isDraw = true;
             for (let i = 0; i < winning_combinations.length; i++) {
                 const [a, b, c] = winning_combinations[i];
                 if(boxes[a].textContent && boxes[a].textContent === boxes[b].textContent && boxes[b].textContent === boxes[c].textContent) {
                     isDraw = false;
-                    document.getElementById('winners-trophy').src = "./images/cup.png"
-                    winner_msg.textContent = "Player " + boxes[a].textContent + " wins!!";
-                    info_box.textContent = winner_msg.textContent;
-                    free_spaces = 9;
-                    //Make the pop-up appear
-                    pop_up.style.visibility = "visible";
-                    pop_up.style.top = "50%";
-                    pop_up.style.transform = "translate(-50%, -50%) scale(1)";
-                    unblur();
-
+                    winner(boxes[a].textContent);
                     //Update score
                     if(boxes[a].textContent == 'X'){
                         x_score += 1;
@@ -61,14 +53,7 @@ function multiplayer() {
                 }
             }
             if (isDraw && free_spaces === 0) {
-                document.getElementById('winners-trophy').src = "./images/handshake.png"
-                winner_msg.textContent = "Draw!!";
-                info_box.textContent = winner_msg.textContent;
-                pop_up.style.visibility = "visible";
-                pop_up.style.top = "50%";
-                pop_up.style.transform = "translate(-50%, -50%) scale(1)";
-                unblur();
-                free_spaces = 9;
+                winner(boxes[a].textContent);
             }
         }
     });
@@ -76,7 +61,23 @@ function multiplayer() {
 
 //Single Player Option, AI
 function singleplayer() {
-
+    displayMenu();
+    const ai = "O";
+    let ai_turn = false;
+    boxes.forEach(function(box) {
+        box.addEventListener("click", function() {
+            if(box.textContent !== "") {
+                return;
+            }
+            if (!ai_turn) {
+                box.textContent = currentPlayer;
+                ai_turn = true;
+            }
+            else if(ai_turn) {
+                
+            }
+        })
+    })
 }
 
 //Clear the Game board and Popup once the "Play Again" button is clicked
@@ -112,7 +113,35 @@ function displayMenu() {
 
 //Unblur the container
 function unblur() {
-    container.forEach(function(element) {
-        element.style.filter = "none";
+    if(blur) {
+        container.forEach(function(element) {
+        element.style.filter = "blur(5px)";
     })
+    blur = false;
+}
+    else {
+        container.forEach(function(element) {
+        element.style.filter = "none";
+        })
+    blur = true;
+    }
+}
+
+//Display Winner Modal in case of win or draw
+function winner(winner) {
+    pop_up.style.visibility = "visible";
+    pop_up.style.top = "50%";
+    pop_up.style.transform = "translate(-50%, -50%) scale(1)";
+    unblur();
+    free_spaces = 9;
+    if(isDraw) {
+        document.getElementById('winners-trophy').src = "./images/handshake.png"
+        winner_msg.textContent = "Draw!!";
+        info_box.textContent = winner_msg.textContent;
+    }
+    else {
+        document.getElementById('winners-trophy').src = "./images/cup.png"
+        winner_msg.textContent = `Player ${winner} wins!!`;
+        info_box.textContent = winner_msg.textContent;
+    }
 }
