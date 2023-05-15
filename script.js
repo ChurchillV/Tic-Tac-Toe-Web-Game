@@ -2,7 +2,6 @@ const boxes = document.querySelectorAll('.box');
 let info_box = document.getElementById('player-turn');
 let currentPlayer = 'X';
 let free_spaces = 9;
-let taps = 0;
 let pop_up = document.getElementById('popup');
 let winner_msg = document.getElementById('winnermessage');
 const container = document.querySelectorAll('.container-fluid');
