@@ -34,27 +34,7 @@ function multiplayer() {
         currentPlayer = currentPlayer === "X" ? "O" : "X";      //Tenary operator to change the current player (If X, change to O, else make it X)
         info_box.textContent = "Player " + currentPlayer + "'s turn";
         free_spaces -= 1;
-        if (free_spaces <= 6) {
-            for (let i = 0; i < winning_combinations.length; i++) {
-                const [a, b, c] = winning_combinations[i];
-                if(boxes[a].textContent && boxes[a].textContent === boxes[b].textContent && boxes[b].textContent === boxes[c].textContent) {
-                    isDraw = false;
-                    winner(boxes[a].textContent);
-                    //Update score
-                    if(boxes[a].textContent == 'X'){
-                        x_score += 1;
-                        scoreX.textContent = x_score;
-                    }
-                    else {
-                        o_score += 1;
-                        scoreO.textContent = o_score;
-                    }
-                }
-            }
-            if (isDraw && free_spaces === 0) {
-                winner(boxes[a].textContent);
-            }
-        }
+        if (free_spaces <= 6) checkWinner();
     });
 });}
 
@@ -127,7 +107,7 @@ function unblur() {
 }
 
 //Display Winner Modal in case of win or draw
-function winner(winner) {
+function displayWinner(winner) {
     pop_up.style.visibility = "visible";
     pop_up.style.top = "50%";
     pop_up.style.transform = "translate(-50%, -50%) scale(1)";
@@ -143,4 +123,27 @@ function winner(winner) {
         winner_msg.textContent = `Player ${winner} wins!!`;
         info_box.textContent = winner_msg.textContent;
     }
+}
+
+//Check for a winner 
+function checkWinner() {
+    for (let i = 0; i < winning_combinations.length; i++) {
+        const [a, b, c] = winning_combinations[i];
+        if(boxes[a].textContent && boxes[a].textContent === boxes[b].textContent && boxes[b].textContent === boxes[c].textContent) {
+            isDraw = false;
+            displayWinner(boxes[a].textContent);
+            //Update score
+            if(boxes[a].textContent == 'X'){
+                x_score += 1;
+                scoreX.textContent = x_score;
+            }
+            else {
+                o_score += 1;
+                scoreO.textContent = o_score;
+            }
+        }
+    }
+        if (isDraw && free_spaces === 0) {
+            displayWinner(boxes[a].textContent);
+        }
 }
