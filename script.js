@@ -15,6 +15,7 @@ scoreO.textContent = o_score;
 let showMenu = false;
 let isDraw = true;
 let blur = false;
+let win = false;
 
 //Array of all possible winning combinations
 const winning_combinations = [
@@ -38,25 +39,37 @@ function multiplayer() {
     });
 });}
 
+
+
 //Single Player Option, AI
 function singleplayer() {
+    let ai_turn = false;
+    console.log("single player fired");
     displayMenu();
     const ai = "O";
-    let ai_turn = false;
     boxes.forEach(function(box) {
-        box.addEventListener("click", function() {
-            if(box.textContent !== "") {
-                return;
+    box.addEventListener("click", function() {
+        console.log("Event fired");
+        if(box.textContent !== "") {
+            return;
+        }
+        if (!ai_turn) {
+            box.textContent = currentPlayer;
+            ai_turn = true;
+            if(ai_turn) {
+                let proceed = true;
+                do {
+                    let random = Math.floor(Math.random()*9);
+                    if (boxes[random].textContent == '') {
+                        boxes[random].textContent = ai;
+                        proceed = false;
+                    }
+                } while(proceed);
+                checkWinner();
+                ai_turn = false;
             }
-            if (!ai_turn) {
-                box.textContent = currentPlayer;
-                ai_turn = true;
-            }
-            else if(ai_turn) {
-                
-            }
-        })
-    })
+        }
+    })})
 }
 
 //Clear the Game board and Popup once the "Play Again" button is clicked
@@ -65,7 +78,7 @@ function clearBoard() {
         box.textContent = "";
     })
     pop_up.style.visibility = "hidden";
-    pop_up.style.top = "0";
+    pop_up.syle.top = "0";
     pop_up.style.transform = "translate(-50%, -50%) scale(0.1)";
     info_box.textContent = "Player X's turn";
     currentPlayer = 'X';
@@ -141,6 +154,7 @@ function checkWinner() {
                 o_score += 1;
                 scoreO.textContent = o_score;
             }
+            win = true;
         }
         else if (isDraw && (free_spaces === 0)) {
             displayWinner(boxes[a].textContent);
