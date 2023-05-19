@@ -142,8 +142,8 @@ function checkWinner() {
                 scoreO.textContent = o_score;
             }
         }
-    }
-        if (isDraw && free_spaces === 0) {
+        else if (isDraw && (free_spaces === 0)) {
             displayWinner(boxes[a].textContent);
         }
+    }
 }
