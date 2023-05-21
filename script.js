@@ -23,6 +23,33 @@ const winning_combinations = [
     [0,3,6], [1,4,7], [2,5,8],  //columns
     [0,4,8], [2,4,6] ];         //diagonals
 
+// ** GAME FUNCTIONALITIES ** \\
+//Check for a winner 
+function checkWinner() {
+    for (let i = 0; i < winning_combinations.length; i++) {
+        const [a, b, c] = winning_combinations[i];
+        if(boxes[a].textContent && boxes[a].textContent === boxes[b].textContent && boxes[b].textContent === boxes[c].textContent) {
+            isDraw = false;
+            displayWinner(boxes[a].textContent);
+            //Update score
+            if(boxes[a].textContent == 'X'){
+                // console.log("x Score increased");
+                x_score += 1;
+                scoreX.textContent = x_score;
+            }
+            else {
+                // console.log("o Score increased");
+                o_score += 1;
+                scoreO.textContent = o_score;
+            }
+            win = true;
+        }
+        else if (isDraw && (free_spaces === 0)) {
+            displayWinner(boxes[a].textContent);
+        }
+    }
+}
+
 //Multiplayer option
 function multiplayer() {
     displayMenu();
@@ -39,8 +66,6 @@ function multiplayer() {
     });
 });}
 
-
-
 //Single Player Option, AI
 function singleplayer() {
     let ai_turn = false;
@@ -48,7 +73,7 @@ function singleplayer() {
     const ai = "O";
     boxes.forEach(function(box) {
     box.addEventListener("click", function() {
-        console.log("Event fired");
+        // console.log("Event fired");
         if(box.textContent !== "") {
             return;
         }
@@ -71,6 +96,51 @@ function singleplayer() {
     })
 })
 }
+
+//Medium difficulty AI
+function medium() {
+    let ai_turn = false;
+    displayMenu();
+    const ai = "O";
+    boxes.forEach(function(box) {
+    box.addEventListener("click", function() {
+        // console.log("Event fired");
+        let usermove = Array.from(boxes).indexOf(box);
+        console.log(usermove);
+        if(box.textContent !== "") {
+            return;
+        }
+        if (!ai_turn) {
+            box.textContent = currentPlayer;
+            ai_turn = true;
+            let row = 0;
+            let col = 0;
+            if(ai_turn) {
+                let proceed = true;
+                do {
+                    for (let i = 0; i < 9; i++) {
+                        for (let j = 0; j < 3; j++) {
+                            if (usermove === winning_combinations[i*3+j]) {
+                                row = i;
+                                col = Math.floor(Math.random()*3);
+                            }
+                        }
+                    } 
+                    if (Array.from(boxes)[row * 3 + col] === "") {
+                        Array.from(boxes)[row * 3 + col] = ai;
+                        console.log(row, col);
+                        proceed = false;
+                    }
+                } while(proceed);
+                ai_turn = false;
+                checkWinner();
+            }
+        }
+    })
+})
+}
+
+// ** UI FUNCTIONS ** \\
 
 //Clear the Game board and Popup once the "Play Again" button is clicked
 function clearBoard() {
@@ -136,34 +206,4 @@ function displayWinner(winner) {
         winner_msg.textContent = `Player ${winner} wins!!`;
         info_box.textContent = winner_msg.textContent;
     }
-}
-
-//Check for a winner 
-function checkWinner() {
-    for (let i = 0; i < winning_combinations.length; i++) {
-        const [a, b, c] = winning_combinations[i];
-        if(boxes[a].textContent && boxes[a].textContent === boxes[b].textContent && boxes[b].textContent === boxes[c].textContent) {
-            isDraw = false;
-            displayWinner(boxes[a].textContent);
-            //Update score
-            if(boxes[a].textContent == 'X'){
-                console.log("x Score increased");
-                x_score += 1;
-                scoreX.textContent = x_score;
-            }
-            else {
-                console.log("o Score increased");
-                o_score += 1;
-                scoreO.textContent = o_score;
-            }
-            win = true;
-        }
-        else if (isDraw && (free_spaces === 0)) {
-            displayWinner(boxes[a].textContent);
-        }
-    }
-}
-
-function hardmode() {
-
 }
