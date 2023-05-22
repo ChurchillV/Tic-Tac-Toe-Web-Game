@@ -173,7 +173,6 @@ function displayWinner(winner) {
 	pop_up.style.top = "50%";
 	pop_up.style.transform = "translate(-50%, -50%) scale(1)";
 	unblur();
-	free_spaces = 9;
 	if (isDraw) {
 		document.getElementById("winners-trophy").src = "./images/handshake.png";
 		winner_msg.textContent = "Draw!!";

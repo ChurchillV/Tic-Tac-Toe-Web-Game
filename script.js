@@ -99,45 +99,78 @@ function singleplayer() {
 
 //Medium difficulty AI
 function medium() {
-    let ai_turn = false;
     displayMenu();
-    const ai = "O";
-    boxes.forEach(function(box) {
-    box.addEventListener("click", function() {
-        // console.log("Event fired");
-        let usermove = Array.from(boxes).indexOf(box);
-        console.log(usermove);
-        if(box.textContent !== "") {
-            return;
-        }
-        if (!ai_turn) {
-            box.textContent = currentPlayer;
-            ai_turn = true;
-            let row = 0;
-            let col = 0;
-            if(ai_turn) {
-                let proceed = true;
-                do {
-                    for (let i = 0; i < 9; i++) {
-                        for (let j = 0; j < 3; j++) {
-                            if (usermove === winning_combinations[i*3+j]) {
-                                row = i;
-                                col = Math.floor(Math.random()*3);
-                            }
-                        }
-                    } 
-                    if (Array.from(boxes)[row * 3 + col] === "") {
-                        Array.from(boxes)[row * 3 + col] = ai;
-                        console.log(row, col);
-                        proceed = false;
-                    }
-                } while(proceed);
-                ai_turn = false;
-                checkWinner();
+	const ai = "O";
+	let ai_turn = false;
+	let last_played = [];
+    let last_played_ai = [];
+    function check(array) {
+        let counter;
+        let ai_counter;
+        let move_arr;
+        if (array.length > 1) {
+            console.log("array: ", array);
+            for (let i = 0; i < array.length; i++) {
+                counter = 0;
+                ai_counter = 0;
+                for (let j = 0; j < array[i].length; j++) {
+                    if (boxes[array[i][j]].textContent == currentPlayer) counter++;
+                    else if(boxes[array[i][j]].textContent == ai) ai_counter++;
+                    
+                    
+                }
+                if(free_spaces == 0){
+                    checkWinner();
+                    break;
+                } else if(counter + ai_counter == 3 && array.length - 1 == i) {
+                    move_arr = [0, 1, 2, 3, 4, 5, 6, 7, 8].filter((num) => boxes[num].textContent == "");
+                    break;
+                 } else if (counter == 3) {
+                    checkWinner();
+                    break;
+                 }
+                  else if (counter == 2 && ai_counter == 0) {
+                    move_arr = array[i].filter((num) => boxes[num].textContent == "");
+                    break;
+                }else move_arr = array.flat(2).filter((num) => boxes[num].textContent == "");
             }
-        }
-    })
-})
+        } else console.log("array: "+ array);
+    
+        console.log("move_arr: " + move_arr);
+        console.log("counter2: " + counter);
+        return move_arr;
+    }
+	boxes.forEach(function (box, i) {
+		box.addEventListener("click", function () {
+			if (box.textContent !== "") {
+				return;
+			}
+			if (!ai_turn) {
+				box.textContent = currentPlayer;
+				last_played.push(i);
+				ai_turn = true;
+                free_spaces--;
+                checkWinner();
+				if (ai_turn) {
+					let possible_moves = winning_combinations.filter((arr) =>arr.includes(i));
+                    possible_moves = check(possible_moves);
+                    let proceed = true;
+                    while (proceed) {
+						let rand = Math.floor(Math.random() * possible_moves.length);
+						let move = possible_moves[rand];
+						if (Array.from(boxes)[move].textContent === "") {
+							Array.from(boxes)[move].textContent = ai;
+                            last_played_ai.push(move);
+							proceed = false;
+						}
+					} ;
+					checkWinner();
+                    free_spaces--;
+					ai_turn = false;
+				}
+			}
+		});
+	});
 }
 
 // ** UI FUNCTIONS ** \\
